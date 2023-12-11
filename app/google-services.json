@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "414850031239",
+    "project_id": "fintrack-ee61e",
+    "storage_bucket": "fintrack-ee61e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414850031239:android:c63ed987882eb10843a222",
+        "android_client_info": {
+          "package_name": "edu.uw.ischool.dkaria.fintracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZG0OPgKgFpAzcDgNA6bOWFfohU7WfupA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
