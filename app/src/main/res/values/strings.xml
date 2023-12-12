@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FinTracker</string>
+    <string-array name="time_frames">
+        <item>Month</item>
+        <item>Year</item>
+    </string-array>
+
 </resources>

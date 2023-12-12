@@ -1,27 +1,25 @@
 package edu.uw.ischool.dkaria.fintracker
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-//import your.package.name.R
 
-class MainActivity : AppCompatActivity() {
+class LandingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_landing)
 
         val buttonLogin = findViewById<Button>(R.id.buttonLogin)
         buttonLogin.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            // Handle login button click
+            // Navigate to LoginActivity
         }
 
         val buttonSignUp = findViewById<Button>(R.id.buttonSignUp)
         buttonSignUp.setOnClickListener {
-            val intent = Intent(this, SignUpActivity::class.java)
-            startActivity(intent)
+            // Handle sign up button click
+            // Navigate to SignUpActivity
         }
     }
 }

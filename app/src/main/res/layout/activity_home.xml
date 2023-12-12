@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvIncome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Income: $0.00"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvExpenses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Expenses: $0.00"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvSavings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Savings: $0.00"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Navigation buttons -->
+    <Button
+        android:id="@+id/btnExpenseTracker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Expense Tracker"/>
+
+    <Button
+        android:id="@+id/btnBudgetPlanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Budget Planner"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Notifications"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:layout_marginTop="8dp"/>
+</LinearLayout>
