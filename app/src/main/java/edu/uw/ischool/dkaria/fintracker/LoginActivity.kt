@@ -1,5 +1,6 @@
 package edu.uw.ischool.dkaria.fintracker
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -51,6 +52,10 @@ class LoginActivity : ComponentActivity() {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 Toast.makeText(this, "Authentication succeeded.", Toast.LENGTH_SHORT).show()
+
+                // Start ImportCSVActivity
+                val intent = Intent(this, ImportCSVActivity::class.java)
+                startActivity(intent)
             } else {
                 Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
             }
