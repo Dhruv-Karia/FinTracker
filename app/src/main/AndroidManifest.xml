@@ -22,6 +22,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".MainActivity" />
+
+        <activity android:name=".ExpenseTrackerActivity" />
+
+        <activity android:name=".BudgetPlannerActivity" />
+
+        <activity android:name=".NotificationsActivity" />
+
+        <activity android:name=".ProfileActivity" />
+
+        <activity android:name=".EditExpenseActivity" />
     </application>
 
 </manifest>

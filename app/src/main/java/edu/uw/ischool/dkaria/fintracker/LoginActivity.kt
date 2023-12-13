@@ -1,5 +1,6 @@
 package edu.uw.ischool.dkaria.fintracker
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -27,7 +28,6 @@ class LoginActivity : ComponentActivity() {
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
-
             if (email.isBlank() || password.isBlank()) {
                 Toast.makeText(this, "Email and password cannot be empty", Toast.LENGTH_SHORT).show()
             } else {
@@ -38,7 +38,6 @@ class LoginActivity : ComponentActivity() {
         signUpButton.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
-
             if (email.isBlank() || password.isBlank()) {
                 Toast.makeText(this, "Email and password cannot be empty", Toast.LENGTH_SHORT).show()
             } else {
@@ -51,6 +50,7 @@ class LoginActivity : ComponentActivity() {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 Toast.makeText(this, "Authentication succeeded.", Toast.LENGTH_SHORT).show()
+                navigateToMainActivity()
             } else {
                 Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
             }
@@ -61,9 +61,16 @@ class LoginActivity : ComponentActivity() {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 Toast.makeText(this, "Account created successfully.", Toast.LENGTH_SHORT).show()
+                navigateToMainActivity()
             } else {
                 Toast.makeText(this, "Account creation failed.", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun navigateToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish() // should close LoginActivity
     }
 }
