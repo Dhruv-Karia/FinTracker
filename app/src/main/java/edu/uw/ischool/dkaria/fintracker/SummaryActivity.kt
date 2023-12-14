@@ -9,6 +9,7 @@ import androidx.activity.ComponentActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*
+import android.content.Intent
 
 data class Transaction(val date: String, val reference: String, val out: Double) {
     // Add an empty constructor for Firebase to deserialize the data
@@ -24,6 +25,12 @@ class SummaryActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary)
+
+        val receiveNotificationsButton = findViewById<Button>(R.id.receiveNotifications)
+        receiveNotificationsButton.setOnClickListener {
+            val intent = Intent(this, NotificationsActivity::class.java)
+            startActivity(intent)
+        }
 
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().getReference("transactions")
