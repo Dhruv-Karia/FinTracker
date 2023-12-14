@@ -1,7 +1,7 @@
 package edu.uw.ischool.dkaria.fintracker
 
-import android.content.Intent
 import android.os.Bundle
+import android.telephony.SmsManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -9,32 +9,25 @@ import android.widget.TextView
 import androidx.activity.ComponentActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import android.content.Intent
 import java.io.Serializable
-import java.util.*
-
 
 data class Transaction(val date: String, val reference: String, val out: Double) : Serializable {
-    // Add an empty constructor for Firebase to deserialize the data
     constructor() : this("", "", 0.0)
 }
+
 class SummaryActivity : ComponentActivity() {
 
     private val transactions = mutableListOf<Transaction>()
     private lateinit var database: DatabaseReference
     private lateinit var userId: String
     private lateinit var budgetTextView: TextView
+    private var userPhoneNumber: String? = null // Store the user's phone number
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary)
 
-        val receiveNotificationsButton = findViewById<Button>(R.id.receiveNotifications)
-        receiveNotificationsButton.setOnClickListener {
-            val intent = Intent(this, NotificationsActivity::class.java)
-            startActivity(intent)
-        }
-
-        // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().getReference("transactions")
         userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
@@ -46,20 +39,9 @@ class SummaryActivity : ComponentActivity() {
         val addButton = findViewById<Button>(R.id.add)
         val visualizeButton = findViewById<Button>(R.id.visualize)
 
-//        val budgetString = intent.getStringExtra("budget")
-//        val budget = if (budgetString.isNullOrBlank()) 0.0 else budgetString.toDouble()
+        userPhoneNumber = intent.getStringExtra("userPhoneNumber") // Retrieve phone number
 
-        // Fetch transactions from Firebase
         fetchTransactionsFromFirebase()
-
-        // Update budget initiall
-
-        for (transaction in transactions) {
-            val transactionTextView = TextView(this)
-            transactionTextView.text =
-                "Date: ${transaction.date}, Reference: ${transaction.reference}, Out: ${transaction.out}"
-            transactionsLayout.addView(transactionTextView)
-        }
 
         addButton.setOnClickListener {
             val date = dateEditText.text.toString()
@@ -69,23 +51,21 @@ class SummaryActivity : ComponentActivity() {
             val transaction = Transaction(date, reference, out)
             transactions.add(transaction)
 
-            // Add the transaction to Firebase
             database.child(userId).push().setValue(transaction)
 
-            val transactionTextView = TextView(this)
-            transactionTextView.text =
-                "Date: ${transaction.date}, Reference: ${transaction.reference}, Out: ${transaction.out}"
-            transactionsLayout.addView(transactionTextView)
-
-            // Update the budget when transactions are added
+            updateUIWithTransaction(transaction)
             updateBudget()
 
-            // Clear the EditText fields after adding the transaction
             dateEditText.text.clear()
             referenceEditText.text.clear()
             outEditText.text.clear()
         }
 
+        val receiveNotificationsButton = findViewById<Button>(R.id.receiveNotifications)
+        receiveNotificationsButton.setOnClickListener {
+            val intent = Intent(this, NotificationsActivity::class.java)
+            startActivity(intent)
+        }
 
         visualizeButton.setOnClickListener {
             val intent = Intent(this, VisualizeActivity::class.java)
@@ -104,7 +84,6 @@ class SummaryActivity : ComponentActivity() {
                     transaction?.let { transactions.add(it) }
                 }
 
-                // Update the UI with fetched transactions
                 updateBudget()
                 updateUIWithTransactions()
             }
@@ -120,18 +99,36 @@ class SummaryActivity : ComponentActivity() {
         transactionsLayout.removeAllViews()
 
         for (transaction in transactions) {
-            val transactionTextView = TextView(this)
-            transactionTextView.text =
-                "Date: ${transaction.date}, Reference: ${transaction.reference}, Out: ${transaction.out}"
-            transactionsLayout.addView(transactionTextView)
+            updateUIWithTransaction(transaction)
         }
+    }
+
+    private fun updateUIWithTransaction(transaction: Transaction) {
+        val transactionsLayout = findViewById<LinearLayout>(R.id.transactions)
+        val transactionTextView = TextView(this)
+        transactionTextView.text =
+            "Date: ${transaction.date}, Reference: ${transaction.reference}, Out: ${transaction.out}"
+        transactionsLayout.addView(transactionTextView)
     }
 
     private fun updateBudget() {
         val budgetString = intent.getStringExtra("budget")
-        val budget = if (budgetString.isNullOrBlank()) 0.0 else budgetString.toDouble()
+        val originalBudget = if (budgetString.isNullOrBlank()) 0.0 else budgetString.toDouble()
         val sum = transactions.sumOf { it.out }
-        val remaining = budget.minus(sum)
+        val remaining = originalBudget - sum
         budgetTextView.text = "Remaining budget: $remaining"
+
+        if (remaining <= originalBudget * 0.1) {
+            sendBudgetWarningSMS()
+        }
+    }
+
+    private fun sendBudgetWarningSMS() {
+        userPhoneNumber?.let { phoneNumber ->
+            val smsManager: SmsManager = SmsManager.getDefault()
+            val warningMessage = "Fintrack budget almost exceeded, watch spending closely!"
+            smsManager.sendTextMessage(phoneNumber, null, warningMessage, null, null)
+        }
     }
 }
+

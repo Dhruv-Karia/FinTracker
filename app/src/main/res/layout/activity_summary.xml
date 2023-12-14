@@ -19,18 +19,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Date"
-        app:layout_constraintTop_toBottomOf="@id/budget"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/budget" />
 
     <EditText
         android:id="@+id/reference"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Reference"
-        app:layout_constraintTop_toBottomOf="@id/date"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/date" />
 
     <EditText
         android:id="@+id/out"
@@ -38,9 +40,10 @@
         android:layout_height="wrap_content"
         android:hint="Out"
         android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@id/reference"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/reference" />
 
     <Button
         android:id="@+id/add"

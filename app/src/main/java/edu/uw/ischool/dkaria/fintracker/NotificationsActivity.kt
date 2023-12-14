@@ -1,6 +1,7 @@
 package edu.uw.ischool.dkaria.fintracker
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.telephony.SmsManager
@@ -36,6 +37,10 @@ class NotificationsActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 1)
             } else {
                 sendEnrollmentSMS(phoneNumber)
+                // Start SummaryActivity with phoneNumber
+                val intent = Intent(this, SummaryActivity::class.java)
+                intent.putExtra("userPhoneNumber", phoneNumber)
+                startActivity(intent)
             }
             showToast("Successfully enrolled")
         } else {
@@ -53,7 +58,6 @@ class NotificationsActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    // Handle the result of the permission request(this is optional)
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -63,3 +67,5 @@ class NotificationsActivity : AppCompatActivity() {
         }
     }
 }
+
+
