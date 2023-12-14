@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.io.Serializable
 import java.util.*
-import android.content.Intent
+
 
 data class Transaction(val date: String, val reference: String, val out: Double) : Serializable {
     // Add an empty constructor for Firebase to deserialize the data

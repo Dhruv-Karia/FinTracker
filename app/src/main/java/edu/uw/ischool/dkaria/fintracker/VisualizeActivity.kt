@@ -4,13 +4,23 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.formatter.ValueFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
 class VisualizeActivity : ComponentActivity() {
+    class DateValueFormatter : ValueFormatter() {
+        private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            return dateFormat.format(Date(value.toLong()))
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +30,7 @@ class VisualizeActivity : ComponentActivity() {
 
         if (!transactions.isNullOrEmpty()) {
             val lineChart = findViewById<LineChart>(R.id.lineChart)
-
+            lineChart.setBackgroundColor(Color.WHITE)
             // Sort transactions by date
             val sortedTransactions = transactions.sortedBy { it.date }
 
@@ -46,6 +56,14 @@ class VisualizeActivity : ComponentActivity() {
             dataSet.color = Color.BLUE
             dataSet.valueTextColor = Color.BLACK
 
+            // Customize x-axis
+            val xAxis = lineChart.xAxis
+            xAxis.valueFormatter = DateValueFormatter()
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+
+            // Remove numbers on top
+            lineChart.axisRight.isEnabled = false
+            dataSet.setDrawValues(false)
             lineChart.data = lineData
             lineChart.invalidate()
         } else {
