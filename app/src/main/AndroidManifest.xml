@@ -25,6 +25,8 @@
         <activity android:name=".ImportCSVActivity" />
         <activity android:name=".BudgetActivity" />
         <activity android:name=".SummaryActivity" />
+        <activity android:name=".VisualizeActivity"
+            android:theme="@android:style/Theme.Material"/>
     </application>
 
 </manifest>

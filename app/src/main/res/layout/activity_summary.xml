@@ -35,6 +35,13 @@
         android:layout_height="wrap_content"
         android:text="Add Transaction" />
 
+    <Button
+        android:id="@+id/visualize"
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/save"
+        android:text="Visualize" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
