@@ -30,6 +30,8 @@
         <activity android:name=".NotificationsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
+        <activity android:name=".VisualizeActivity"
+            android:theme="@android:style/Theme.Material"/>
     </application>
 
 </manifest>

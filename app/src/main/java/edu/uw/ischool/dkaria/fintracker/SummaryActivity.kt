@@ -1,5 +1,6 @@
 package edu.uw.ischool.dkaria.fintracker
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -8,10 +9,11 @@ import android.widget.TextView
 import androidx.activity.ComponentActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.io.Serializable
 import java.util.*
 import android.content.Intent
 
-data class Transaction(val date: String, val reference: String, val out: Double) {
+data class Transaction(val date: String, val reference: String, val out: Double) : Serializable {
     // Add an empty constructor for Firebase to deserialize the data
     constructor() : this("", "", 0.0)
 }
@@ -42,6 +44,7 @@ class SummaryActivity : ComponentActivity() {
         val referenceEditText = findViewById<EditText>(R.id.reference)
         val outEditText = findViewById<EditText>(R.id.out)
         val addButton = findViewById<Button>(R.id.add)
+        val visualizeButton = findViewById<Button>(R.id.visualize)
 
 //        val budgetString = intent.getStringExtra("budget")
 //        val budget = if (budgetString.isNullOrBlank()) 0.0 else budgetString.toDouble()
@@ -81,6 +84,13 @@ class SummaryActivity : ComponentActivity() {
             dateEditText.text.clear()
             referenceEditText.text.clear()
             outEditText.text.clear()
+        }
+
+
+        visualizeButton.setOnClickListener {
+            val intent = Intent(this, VisualizeActivity::class.java)
+            intent.putExtra("transactions", ArrayList(transactions))
+            startActivity(intent)
         }
     }
 
