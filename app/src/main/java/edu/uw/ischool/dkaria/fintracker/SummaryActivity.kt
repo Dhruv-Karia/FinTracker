@@ -43,23 +43,36 @@ class SummaryActivity : ComponentActivity() {
 
         fetchTransactionsFromFirebase()
 
+        fun isValidDate(date: String): Boolean {
+            val regex = """^\d{4}-\d{2}-\d{2}$""".toRegex()
+            return date.matches(regex)
+        }
+
         addButton.setOnClickListener {
             val date = dateEditText.text.toString()
-            val reference = referenceEditText.text.toString()
-            val out = outEditText.text.toString().toDouble()
 
-            val transaction = Transaction(date, reference, out)
-            transactions.add(transaction)
+            if (isValidDate(date)) {
+                val reference = referenceEditText.text.toString()
+                val out = outEditText.text.toString().toDouble()
 
-            database.child(userId).push().setValue(transaction)
+                val transaction = Transaction(date, reference, out)
+                transactions.add(transaction)
 
-            updateUIWithTransaction(transaction)
-            updateBudget()
+                database.child(userId).push().setValue(transaction)
 
-            dateEditText.text.clear()
-            referenceEditText.text.clear()
-            outEditText.text.clear()
+                updateUIWithTransaction(transaction)
+                updateBudget()
+
+                dateEditText.text.clear()
+                referenceEditText.text.clear()
+                outEditText.text.clear()
+            } else {
+                // Show an error message or handle the invalid date input
+                // For example, you can set an error message on the EditText
+                dateEditText.error = "Invalid date format. Please use YYYY-MM-DD."
+            }
         }
+
 
         val receiveNotificationsButton = findViewById<Button>(R.id.receiveNotifications)
         receiveNotificationsButton.setOnClickListener {

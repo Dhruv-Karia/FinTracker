@@ -47,8 +47,12 @@ class LoginActivity : ComponentActivity() {
             }
         }
     }
-
     private fun signIn(email: String, password: String) {
+        if (password.length < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters long.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 Toast.makeText(this, "Authentication succeeded.", Toast.LENGTH_SHORT).show()
@@ -57,18 +61,24 @@ class LoginActivity : ComponentActivity() {
                 val intent = Intent(this, ImportCSVActivity::class.java)
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun signUp(email: String, password: String) {
+        if (password.length < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters long.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 Toast.makeText(this, "Account created successfully.", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Account creation failed.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Account creation failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
 }
